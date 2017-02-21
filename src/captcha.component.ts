@@ -3,12 +3,12 @@ import { DataService } from './captcha.data.service';
 
 @Component({
 	selector: 'captcha',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.css'],
+	templateUrl: './captcha.component.html',
+	styleUrls: ['./captcha.component.css'],
 	providers: [DataService]
 })
 
-export class CatpchaComponent {
+export class CaptchaComponent {
 
   @Input('apiBaseUrl') apiBaseUrl:string;
   @Input('nonce') nonce:string;

@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { DataService } from './captcha.data.service';
-export declare class CatpchaComponent {
+export declare class CaptchaComponent {
     private dataService;
     private element;
     apiBaseUrl: string;

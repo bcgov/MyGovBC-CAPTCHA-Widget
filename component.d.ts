@@ -1,1 +1,1 @@
-export * from './lib/captcha.module';
+export { CaptchaComponent } from './lib/captcha.component';
