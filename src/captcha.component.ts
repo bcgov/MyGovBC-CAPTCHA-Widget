@@ -3,8 +3,8 @@ import { DataService } from './captcha.data.service';
 
 @Component({
 	selector: 'captcha',
-	templateUrl: './captcha.component.html',
-	styleUrls: ['./captcha.component.css'],
+	template: require('./captcha.component.html'),
+	styles: [require('./captcha.component.css')],
 	providers: [DataService]
 })
 
