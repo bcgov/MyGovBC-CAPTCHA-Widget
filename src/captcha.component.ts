@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild, Output, Input} from '@angular/core';
+import {Component, ElementRef, ViewChild, Output, Input, AfterViewInit} from '@angular/core';
 import {DataService} from './captcha.data.service';
 
 @Component({
@@ -39,7 +39,7 @@ import {DataService} from './captcha.data.service';
   providers: [DataService]
 })
 
-export class CaptchaComponent {
+export class CaptchaComponent implements AfterViewInit {
 
   @Input('apiBaseUrl') apiBaseUrl: string;
   @Input('nonce') nonce: string;
@@ -50,7 +50,11 @@ export class CaptchaComponent {
 
   @ViewChild('image') imageContainer: ElementRef;
 
-  constructor(private dataService: DataService, private element: ElementRef) {
+  constructor(private dataService: DataService) {
+
+  }
+
+  ngAfterViewInit() {
     this.getNewCaptcha(false);
   }
 
