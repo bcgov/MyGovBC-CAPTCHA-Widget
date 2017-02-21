@@ -1,0 +1,1 @@
+exports.CaptchaModule = require('./lib/captcha.module').CaptchaModule;

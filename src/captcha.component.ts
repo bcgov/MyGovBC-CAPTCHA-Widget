@@ -1,21 +1,24 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { DataService } from './data.service';
+import {Component, ElementRef, ViewChild, Output, Input} from '@angular/core';
+import { DataService } from './captcha.data.service';
 
 @Component({
-	selector: 'app-root',
+	selector: 'captcha',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.css'],
 	providers: [DataService]
 })
 
-export class AppComponent {
-	title 				= 'MyGovBC Captcha Widget Client Example.';
-	captchaValid 	= null;
-	jwt 					= "";
+export class CatpchaComponent {
+
+  @Input('apiBaseUrl') apiBaseUrl:string;
+  @Input('nonce') nonce:string;
+  @Output('valid') captchaValid:boolean = null;
+	@Output('token') jwt: string;
 	validation 		= "";
 	answer 				= "";
 
-	@ViewChild('captcha') captchaContainer: ElementRef
+	@ViewChild('image') imageContainer: ElementRef;
+
 	constructor(private dataService: DataService, private element: ElementRef) {
 		this.getNewCaptcha(false);
 	}
@@ -25,7 +28,7 @@ export class AppComponent {
 		// Attempt to validate the user's token.
 		// console.log("onsubmit", this.answer);
 
-		this.dataService.verifyCaptcha(this.answer, this.validation).subscribe(
+		this.dataService.verifyCaptcha(this.apiBaseUrl, this.nonce, this.answer, this.validation).subscribe(
 			(res) => this.handleVerify(res)
 			);
 	}
@@ -53,7 +56,7 @@ export class AppComponent {
 			// Contructing this form on page load/reload will have errorCase = false
 			this.captchaValid = null;
 		}
-		this.dataService.fetchData().subscribe(
+		this.dataService.fetchData(this.apiBaseUrl, this.nonce).subscribe(
 			(res) => this.handleCaptcha(res)
 			);
 	}
@@ -62,7 +65,7 @@ export class AppComponent {
 	private handleCaptcha(payload) {
 		// console.log("payload:", payload);
 
-		this.captchaContainer.nativeElement.innerHTML = payload.captcha;
+		this.imageContainer.nativeElement.innerHTML = payload.captcha;
 		this.validation = payload.validation;
 	}
 }
