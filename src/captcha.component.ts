@@ -52,7 +52,7 @@ export class CaptchaComponent implements AfterViewInit {
     this.getNewCaptcha(false);
   }
 
-  answerChanged (event) {
+  answerChanged (event:any) {
     if (this.answer.length == 4) {
       this.dataService.verifyCaptcha(this.apiBaseUrl, this.nonce, this.answer, this.validation).subscribe(
         (res) => this.handleVerify(res)
@@ -61,7 +61,7 @@ export class CaptchaComponent implements AfterViewInit {
   }
 
   // Call the backend to see if our answer is correct
-  private handleVerify(payload) {
+  private handleVerify(payload:any) {
     if (payload.valid === true) {
       this.captchaValid = true;
       this.onValidToken.emit(payload.jwt);
@@ -72,7 +72,7 @@ export class CaptchaComponent implements AfterViewInit {
     }
   }
 
-  public getNewCaptcha(errorCase) {
+  public getNewCaptcha(errorCase:any) {
     console.log("getting new captcha.");
     // Reset things
     if (!errorCase) {
@@ -86,7 +86,7 @@ export class CaptchaComponent implements AfterViewInit {
   }
 
   // We received a payload from the server - apply it to our form.
-  private handleCaptcha(payload) {
+  private handleCaptcha(payload:any) {
     this.imageContainer.nativeElement.innerHTML = payload.captcha;
     this.validation = payload.validation;
   }
