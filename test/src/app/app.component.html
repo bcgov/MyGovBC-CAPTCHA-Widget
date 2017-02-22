@@ -3,6 +3,12 @@
 <h1 class="form-group">
   <div >{{title}}</div>
 </h1>
-<captcha [apiBaseUrl]="api" [nonce]="23423234234"></captcha>
+<captcha [apiBaseUrl]="api"
+         [nonce]="23423234234"
+         (onValidToken)="validToken($event)"></captcha>
+<div>
+  Debug area:<br>
+  Token: {{token}}
+</div>
 </body>
 </html>

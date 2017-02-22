@@ -1,40 +1,30 @@
-import {Component, ElementRef, ViewChild, Output, Input, AfterViewInit} from '@angular/core';
+import {Component, ElementRef, ViewChild, Output, Input, AfterViewInit, EventEmitter} from '@angular/core';
 import {DataService} from './captcha.data.service';
 
 @Component({
   selector: 'captcha',
-  template: `<div class="container">
-  <div class="form-group row">
-    <div class="col-sm-4">
-      <label>Captcha Image:</label>
+  template: `
+<form>
+  <div class="form-group" [ngClass]="{'has-error': captchaValid == false}">
+    <div *ngIf="!captchaValid" class="col-sm-4">
       <div #image></div>
-      <button class="btn btn-success" (click)="getNewCaptcha()">Refresh</button>
-    </div>
-  </div>
-</div>
-<div class="container">
-  <form>
-    <div class="form-group row">
-      <div class="col-sm-4">
-        <label for="answer">Enter The Text You See Above:</label>
-        <input
-          type="text"
-          class="form-control"
-          id="answer"
-          [(ngModel)]="answer"
-          name="answer"
-          required>
+      <label for="answer">Enter the text you see above</label>
+      <input 
+        type="text"
+        class="form-control"
+        id="answer"
+        [(ngModel)]="answer"
+        (change)="answerChanged($event)"
+        name="answer"
+        maxlength="4"
+        required>
+       <div class="text-danger" *ngIf="captchaValid == false">
+        Incorrect answer, try again
       </div>
     </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-success">Submit</button>
-    </div>
-  </form>
-  <div class="form-group row">
-    <div *ngIf="captchaValid != null && captchaValid != false" class="col-sm-4 glyphicon glyphicon-ok"> Correct!</div>
-    <div *ngIf="captchaValid == false" class="col-sm-4 glyphicon glyphicon-remove"> Incorrect Answer!</div>
+    <div *ngIf="captchaValid"><i class="fa fa-check success" aria-hidden="true"></i> Correct</div>
   </div>
-</div>
+</form>
 `,
   providers: [DataService]
 })
@@ -43,10 +33,12 @@ export class CaptchaComponent implements AfterViewInit {
 
   @Input('apiBaseUrl') apiBaseUrl: string;
   @Input('nonce') nonce: string;
-  @Output('valid') captchaValid: boolean = null;
-  @Output('token') jwt: string;
-  validation = "";
-  answer = "";
+  @Output() onValidToken = new EventEmitter<string>();
+
+  captchaValid: boolean = null;
+
+  private validation = "";
+  private answer = "";
 
   @ViewChild('image') imageContainer: ElementRef;
 
@@ -58,23 +50,19 @@ export class CaptchaComponent implements AfterViewInit {
     this.getNewCaptcha(false);
   }
 
-  // Handle form submission
-  public onSubmit() {
-    // Attempt to validate the user's token.
-    // console.log("onsubmit", this.answer);
-
-    this.dataService.verifyCaptcha(this.apiBaseUrl, this.nonce, this.answer, this.validation).subscribe(
-      (res) => this.handleVerify(res)
-    );
+  answerChanged (event) {
+    if (this.answer.length == 4) {
+      this.dataService.verifyCaptcha(this.apiBaseUrl, this.nonce, this.answer, this.validation).subscribe(
+        (res) => this.handleVerify(res)
+      );
+    }
   }
 
   // Call the backend to see if our answer is correct
   private handleVerify(payload) {
-    // console.log("payload response:", payload);
-
     if (payload.valid === true) {
       this.captchaValid = true;
-      this.jwt = payload.jwt;
+      this.onValidToken.emit(payload.jwt);
     } else {
       this.captchaValid = false;
       // They failed - try a new one.
@@ -85,7 +73,6 @@ export class CaptchaComponent implements AfterViewInit {
   public getNewCaptcha(errorCase) {
     console.log("getting new captcha.");
     // Reset things
-    this.jwt = "";
     if (!errorCase) {
       // Let them know they failed instead of wiping out the answer area
       // Contructing this form on page load/reload will have errorCase = false
@@ -98,8 +85,6 @@ export class CaptchaComponent implements AfterViewInit {
 
   // We received a payload from the server - apply it to our form.
   private handleCaptcha(payload) {
-    // console.log("payload:", payload);
-
     this.imageContainer.nativeElement.innerHTML = payload.captcha;
     this.validation = payload.validation;
   }

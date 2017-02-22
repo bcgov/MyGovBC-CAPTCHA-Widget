@@ -8,6 +8,11 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'MyGovBC Captcha Widget Client Example';
+  title = 'MyGovBC Captcha Widget Test Harness';
   api = "http://localhost:3000";
+  token:string;
+
+  validToken (event: string) {
+    this.token = event;
+  }
 }

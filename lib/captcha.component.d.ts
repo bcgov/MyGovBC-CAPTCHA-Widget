@@ -1,17 +1,17 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, AfterViewInit, EventEmitter } from '@angular/core';
 import { DataService } from './captcha.data.service';
-export declare class CaptchaComponent {
+export declare class CaptchaComponent implements AfterViewInit {
     private dataService;
-    private element;
     apiBaseUrl: string;
     nonce: string;
+    onValidToken: EventEmitter<string>;
     captchaValid: boolean;
-    jwt: string;
-    validation: string;
-    answer: string;
+    private validation;
+    private answer;
     imageContainer: ElementRef;
-    constructor(dataService: DataService, element: ElementRef);
-    onSubmit(): void;
+    constructor(dataService: DataService);
+    ngAfterViewInit(): void;
+    answerChanged(event: any): void;
     private handleVerify(payload);
     getNewCaptcha(errorCase: any): void;
     private handleCaptcha(payload);

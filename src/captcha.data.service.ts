@@ -16,7 +16,7 @@ export class DataService {
   }
 
   verifyCaptcha(apiBaseUrl:string, nonce:string, answer, encryptedAnswer):Observable<Response> {
-    return this.http.post(apiBaseUrl + '/verify/captcha', {nonce: nonce, answer: answer, encryptedAnswer: encryptedAnswer}, {})
+    return this.http.post(apiBaseUrl + '/verify/captcha', {nonce: nonce, answer: answer, validation: encryptedAnswer}, {})
   	.map(
   		(res) => res.json()
   	);
