@@ -2,12 +2,17 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es6",
-    "module": "commonjs",
+    "target": "es5",
+    "module": "es6",
     "moduleResolution": "node",
     "removeComments": true,
     "sourceMap": true,
     "outDir": "../lib",
-    "declaration": true
+    "declaration": true,
+    "lib": ["es6", "dom"],
+    "mapRoot": "./",
+    "typeRoots": [
+      "../node_modules/@types"
+    ]
   }
 }
