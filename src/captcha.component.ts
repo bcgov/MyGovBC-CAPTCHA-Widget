@@ -14,7 +14,7 @@ import {DataService} from './captcha.data.service';
         class="form-control"
         id="answer"
         [(ngModel)]="answer"
-        (change)="answerChanged($event)"
+        (input)="answerChanged($event)"
         name="answer"
         maxlength="4"
         required>
@@ -22,7 +22,9 @@ import {DataService} from './captcha.data.service';
         Incorrect answer, try again
       </div>
     </div>
-    <div *ngIf="captchaValid"><i class="fa fa-check success" aria-hidden="true"></i> Correct</div>
+    <div *ngIf="captchaValid" class="col-sm-4">
+      <i class="fa fa-check success" aria-hidden="true"></i> Correct
+    </div>
   </div>
 </form>
 `,
