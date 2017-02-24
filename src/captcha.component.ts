@@ -16,7 +16,7 @@ import {DataService} from './captcha.data.service';
         [(ngModel)]="answer"
         (input)="answerChanged($event)"
         name="answer"
-        maxlength="4"
+        maxlength="6"
         required>
        <div class="text-danger" *ngIf="captchaValid == false">
         Incorrect answer, try again
@@ -53,7 +53,7 @@ export class CaptchaComponent implements AfterViewInit {
   }
 
   answerChanged (event:any) {
-    if (this.answer.length == 4) {
+    if (this.answer.length == 6) {
       this.dataService.verifyCaptcha(this.apiBaseUrl, this.nonce, this.answer, this.validation).subscribe(
         (res) => this.handleVerify(res)
       );
