@@ -17,7 +17,9 @@ import {DataService} from './captcha.data.service';
         (input)="answerChanged($event)"
         name="answer"
         maxlength="6"
-        required>
+        required
+        autocorrect="off" 
+        autocapitalize="none">
        <div class="text-danger" *ngIf="captchaValid == false">
         Incorrect answer, try again
       </div>
