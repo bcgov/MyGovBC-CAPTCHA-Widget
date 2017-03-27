@@ -8,7 +8,7 @@ import {DataService} from './captcha.data.service';
   <div class="form-group" [ngClass]="{'has-error': captchaValid == false}">
     <div *ngIf="!captchaValid" class="col-sm-4">
       <div #image></div>
-      <label for="answer">Enter the text you see above</label>
+      <label for="answer">Enter the text you see above (case sensitive)</label>
       <input 
         type="text"
         class="form-control"
