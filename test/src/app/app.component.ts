@@ -13,6 +13,7 @@ export class AppComponent {
   token:string;
 
   validToken (event: string) {
+    console.log('valid token received: %s' + event);
     this.token = event;
   }
 }

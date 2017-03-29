@@ -10,16 +10,10 @@ export class DataService {
 
   fetchData(apiBaseUrl:string, nonce:string):Observable<Response> {
   	return this.http.post(apiBaseUrl + '/captcha', {nonce: nonce}, {})
-  	.map(
-  		(res) => res.json()
-  	);
   }
 
   verifyCaptcha(apiBaseUrl:string, nonce:string, answer:string, encryptedAnswer:string):Observable<Response> {
-    return this.http.post(apiBaseUrl + '/verify/captcha', {nonce: nonce, answer: answer, validation: encryptedAnswer}, {})
-  	.map(
-  		(res) => res.json()
-  	);
+    return this.http.post(apiBaseUrl + '/verify/captcha', {nonce: nonce, answer: answer, validation: encryptedAnswer}, {});
   }
 
 }

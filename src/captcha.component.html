@@ -1,0 +1,62 @@
+<div>
+  <form style="clear:both">
+    <div [ngClass]="{'has-error': !!incorrectAnswer}">
+      <div>
+        <div class="spinner-box" *ngIf="!state || state === 1">
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        </div>
+        
+        <div [ngClass]="{'captcha-box-visible': state === 2, 'captcha-box-invisible': state !== 2}">
+          <div #image></div>
+          <div class="user-input">
+            <label for="answer">Enter the text you see above (case sensitive)</label>
+            <input 
+              type="text"
+              class="form-control"
+              id="answer"
+              [(ngModel)]="answer"
+              (input)="answerChanged($event)"
+              name="answer"
+              maxlength="6"
+              required
+              autocorrect="off" 
+              autocapitalize="none">
+          </div>
+        </div>
+
+        <div class="error-captcha" *ngIf="state === 3">
+          <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
+          <span> Error happened while retreiving image. please 
+            <a href="javascript:void(0)" (click)="retryFetchCaptcha()">click here</a> 
+              to try again
+          </span>
+          <p>
+            {{errorFetchingImg}}
+          </p>
+        </div>
+        
+        <div class="spinner-box" *ngIf="state == 4">
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          <span>Verifying your answer...</span>
+        </div>
+        <div class="error-captcha" *ngIf="state === 6">
+          <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
+          <span> Error happened while verifying your answer. please 
+            <a href="javascript:void(0)" (click)="retryFetchCaptcha()">click here</a> 
+              to try again
+          </span>
+          <p>
+          </p>
+        </div>
+        
+        <div class="text-danger" *ngIf="incorrectAnswer === true && state !== 5">
+          Incorrect answer, plese try again.
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="confirm-correct-answer" *ngIf="state === 5">
+    <i class="fa fa-check success fa-2x" aria-hidden="true"></i> 
+    Correct. You can submit your application now.
+  </div>
+</div>
