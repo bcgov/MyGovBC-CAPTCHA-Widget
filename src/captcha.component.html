@@ -8,8 +8,8 @@
         
         <div [ngClass]="{'captcha-box-visible': state === 2, 'captcha-box-invisible': state !== 2}">
           <div #image></div>
+          <label for="answer">Enter the text you see above (case sensitive)</label>
           <div class="user-input">
-            <label for="answer">Enter the text you see above (case sensitive)</label>
             <input 
               type="text"
               class="form-control"

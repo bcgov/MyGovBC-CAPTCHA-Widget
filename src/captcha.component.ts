@@ -6,7 +6,7 @@ import { Response } from '@angular/http';
 @Component({
   selector: 'captcha',
   template: `
-  <div>
+<div>
   <form style="clear:both">
     <div [ngClass]="{'has-error': !!incorrectAnswer}">
       <div>
@@ -16,8 +16,8 @@ import { Response } from '@angular/http';
         
         <div [ngClass]="{'captcha-box-visible': state === 2, 'captcha-box-invisible': state !== 2}">
           <div #image></div>
+          <label for="answer">Enter the text you see above (case sensitive)</label>
           <div class="user-input">
-            <label for="answer">Enter the text you see above (case sensitive)</label>
             <input 
               type="text"
               class="form-control"
@@ -68,42 +68,42 @@ import { Response } from '@angular/http';
     Correct. You can submit your application now.
   </div>
 </div>
-
+  
   `,
   styles: [`
-  .confirm-correct-answer {
-  display:block;
-  
-}
-.confirm-correct-answer i {
-  color: green;
-}
-.spinner-box {
-  height: 60px;
-  margin: 6px 10px 6px 10px;
-}
+    .confirm-correct-answer {
+      display:block;
+      
+    }
+    .confirm-correct-answer i {
+      color: green;
+    }
+    .spinner-box {
+      height: 60px;
+      margin: 6px 10px 6px 10px;
+    }
 
-.error-captcha {
-  margin-left: 10px;
-}
-.error-captcha i {
-  color: darkorange;
-}
-.error-captcha p{
-  margin-left: 32px;
-}
+    .error-captcha {
+      margin-left: 10px;
+    }
+    .error-captcha i {
+      color: darkorange;
+    }
+    .error-captcha p{
+      margin-left: 32px;
+    }
 
-.user-input {
-  width: 300px;
-}
+    .user-input {
+      width: 300px;
+    }
 
-.captcha-box-visible {
-  display: block
-}
+    .captcha-box-visible {
+      display: block
+    }
 
-.captcha-box-invisible{
-  display: none
-}
+    .captcha-box-invisible{
+      display: none
+    }  
   `],
   providers: [DataService]
 })
@@ -136,9 +136,7 @@ export class CaptchaComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(()=>{
-      this.getNewCaptcha(false);
-    }, 400);
+    this.getNewCaptcha(false);
 
     // this.getNewCaptcha(false);
     this.cd.detectChanges();
@@ -180,13 +178,17 @@ export class CaptchaComponent implements AfterViewInit {
 
   public retryFetchCaptcha() {
     this.state = undefined;
+
+    /**
+     * wait for 0.5 seond before resubmitting
+     */
     setTimeout(() => {
       this.getNewCaptcha(false)
-    }, 1000);
+    }, 500);
   }
 
   public getNewCaptcha(errorCase:any) {
-    console.log("getting new captcha.");
+    console.log("Fetching new captcha image.");
     this.state = CAPTCHA_STATE.FETCHING_CAPTCHA_IMG;
     
     // Reset things
