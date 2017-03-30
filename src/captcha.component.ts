@@ -15,8 +15,11 @@ import { Response } from '@angular/http';
         </div>
         
         <div [ngClass]="{'captcha-box-visible': state === 2, 'captcha-box-invisible': state !== 2}">
-          <div #image></div>
-          <label for="answer">Enter the text you see above (case sensitive)</label>
+          <div>
+            <div #image class="captcha-image"></div>
+            <a class="try-another-image" href="javascript:void(0)" (click)="retryFetchCaptcha()">Try another image</a>
+          </div>
+          <label for="answer">Enter the text you see in the orange box (case insensitive)</label>
           <div class="user-input">
             <input 
               type="text"
@@ -104,6 +107,22 @@ import { Response } from '@angular/http';
     .captcha-box-invisible{
       display: none
     }  
+
+    .image-box {
+      position:relative
+    }
+
+    .captcha-image {
+      display: inline-block;
+      border: 1px solid darkorange;
+    }
+    .try-another-image {
+      vertical-align:text-top;
+      display: inline-block;
+      margin-left: 5px;
+    }
+
+
   `],
   providers: [DataService]
 })
@@ -184,7 +203,7 @@ export class CaptchaComponent implements AfterViewInit {
      */
     setTimeout(() => {
       this.getNewCaptcha(false)
-    }, 500);
+    }, 200);
   }
 
   public getNewCaptcha(errorCase:any) {
