@@ -190,6 +190,7 @@ export class CaptchaComponent implements AfterViewInit {
     } else {
 
       this.incorrectAnswer = true;
+      this.answer = "";
       // They failed - try a new one.
       this.getNewCaptcha(true);
     }
