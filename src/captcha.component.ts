@@ -60,7 +60,7 @@ import { Response } from '@angular/http';
           </p>
         </div>
         
-        <div class="text-danger" *ngIf="incorrectAnswer === true && state !== 5">
+        <div class="text-danger" *ngIf="incorrectAnswer === true">
           Incorrect answer, plese try again.
         </div>
       </div>
@@ -162,17 +162,26 @@ export class CaptchaComponent implements AfterViewInit {
   }
 
   answerChanged (event:any) {
+    if(this.answer.length < 6){
+      this.incorrectAnswer = null;
+    }
     if (this.answer.length === 6) {
       this.state = CAPTCHA_STATE.VERIFYING_ANSWER;
       this.incorrectAnswer = null;
       this.dataService.verifyCaptcha(this.apiBaseUrl, this.nonce, this.answer, this.validation).subscribe(
         (res:Response) => {
-          this.handleVerify(res.json());
+          let payload = res.json();
+          if( this.isValidPayload(payload)){
+            this.handleVerify(payload);
+          }else{
+            this.state = CAPTCHA_STATE.ERROR_VERIFY;
+            this.errorVerifyAnswer = this.createErrorTextLine(res);
+          }
         },
         (error:Response) => {
           this.state = CAPTCHA_STATE.ERROR_VERIFY;
           this.errorVerifyAnswer = this.createErrorTextLine(error);
-          console.log('Error esponse from verifying user answer: %o', error);
+          console.log('Error response from verifying user answer: %o', error);
         }
       );
     }
@@ -180,19 +189,36 @@ export class CaptchaComponent implements AfterViewInit {
 
   // Call the backend to see if our answer is correct
   private handleVerify(payload:any) {
+    //There could be the rare change where an invalid payload response is received.
     if (payload.valid === true) {
-      // setTimeout( () => {
-      //   this.state = CAPTCHA_STATE.SUCCESS_VERIFY_ANSWER_CORRECT;
-      //   this.onValidToken.emit(payload.jwt);
-      // }, 2000);
       this.state = CAPTCHA_STATE.SUCCESS_VERIFY_ANSWER_CORRECT;
       this.onValidToken.emit(payload.jwt);
     } else {
-
       this.incorrectAnswer = true;
       this.answer = "";
       // They failed - try a new one.
       this.getNewCaptcha(true);
+    }
+  }
+
+  /**
+   * Case where HTTP 200 response code is received by the payload is incorrect or corrupt.
+   * The occurance of this type of case should be rare.
+   * @param payload 
+   */
+  private isValidPayload(payload){
+    console.debug('Response payload: %o', payload);
+    if(!payload){
+      console.error("payload cannot be null or undefined or 0");
+      return false;
+    }else{
+      let hasValueProp = payload.hasOwnProperty('valid');
+      if(!hasValueProp){
+        console.error('payload must have its own property named \'valid\'');
+        return false;
+      }else{
+        return true;
+      }
     }
   }
 
