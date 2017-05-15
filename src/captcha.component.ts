@@ -11,31 +11,44 @@ import { Response } from '@angular/http';
     <div [ngClass]="{'has-error': !!incorrectAnswer}">
       <div>
         <div class="spinner-box" *ngIf="!state || state === 1">
-          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw" aria-hidden="true"></i>
         </div>
         
         <div [ngClass]="{'captcha-box-visible': state === 2, 'captcha-box-invisible': state !== 2}">
           <div>
-            <div #image class="captcha-image"></div>
-            <a class="try-another-image" href="javascript:void(0)" (click)="retryFetchCaptcha()">Try another image</a>
+            <div style="float: left;" #image class="captcha-image"></div>
+            <audio *ngIf="audio && audio.length > 0" id="audioElement" [src]="audio">
+              Your browser does not support the audio element.
+            </audio>
+            <p style="float: left;">
+              <a *ngIf="audio && audio.length > 0" class="try-another-image" href="javascript:audioElement.play();" role="button">
+                <i class="fa fa-play-circle-o" aria-hidden="true"></i> Play Audio
+              </a><br>
+              <a class="try-another-image" href="javascript:void(0)" (click)="retryFetchCaptcha()" role="button">
+                <i class="fa fa-refresh" aria-hidden="true"></i> Try another image
+              </a>
+            </p>
           </div>
-          <label for="answer">Enter the text you see in the orange box (case insensitive)</label>
-          <div class="user-input">
-            <input 
-              type="text"
-              class="form-control"
-              id="answer"
-              [(ngModel)]="answer"
-              (input)="answerChanged($event)"
-              name="answer"
-              maxlength="6"
-              required
-              autocorrect="off" 
-              autocapitalize="none">
+          <div style="clear:both;"></div>
+          <div>
+            <label for="answer">Enter the text you see in the orange box (case insensitive)</label>
+            <div class="user-input">
+              <input 
+                type="text"
+                class="form-control"
+                id="answer"
+                [(ngModel)]="answer"
+                (input)="answerChanged($event)"
+                name="answer"
+                maxlength="6"
+                required
+                autocorrect="off" 
+                autocapitalize="none">
+            </div>
           </div>
         </div>
 
-        <div class="error-captcha" *ngIf="state === 3">
+        <div class="error-captcha" *ngIf="state === 3" role="alert" aria-live="assertive">
           <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
           <span> Error happened while retreiving image. please 
             <a href="javascript:void(0)" (click)="retryFetchCaptcha()">click here</a> 
@@ -46,11 +59,11 @@ import { Response } from '@angular/http';
           </p>
         </div>
         
-        <div class="spinner-box" *ngIf="state == 4">
+        <div class="spinner-box" *ngIf="state == 4" role="alert" aria-live="assertive">
           <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           <span>Verifying your answer...</span>
         </div>
-        <div class="error-captcha" *ngIf="state === 6">
+        <div class="error-captcha" *ngIf="state === 6"  role="alert" aria-live="assertive">
           <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
           <span> Error happened while verifying your answer. please 
             <a href="javascript:void(0)" (click)="retryFetchCaptcha()">click here</a> 
@@ -60,13 +73,13 @@ import { Response } from '@angular/http';
           </p>
         </div>
         
-        <div class="text-danger" *ngIf="incorrectAnswer === true">
+        <div class="text-danger" *ngIf="incorrectAnswer === true" role="alert" aria-live="assertive">
           Incorrect answer, plese try again.
         </div>
       </div>
     </div>
   </form>
-  <div class="confirm-correct-answer" *ngIf="state === 5">
+  <div class="confirm-correct-answer" *ngIf="state === 5" role="alert" aria-live="assertive">
     <i class="fa fa-check success fa-2x" aria-hidden="true"></i> 
     Correct. You can submit your application now.
   </div>
@@ -144,6 +157,7 @@ export class CaptchaComponent implements AfterViewInit {
   errorVerifyAnswer = null;
 
   private validation = "";
+  private audio = "";
   private answer = "";
 
   state:CAPTCHA_STATE;
@@ -251,6 +265,7 @@ export class CaptchaComponent implements AfterViewInit {
         let payload = response.json();
         this.imageContainer.nativeElement.innerHTML = payload.captcha;
         this.validation = payload.validation;
+        this.audio = payload.audio;
         this.cd.detectChanges();
       },
       (error:Response) => {
