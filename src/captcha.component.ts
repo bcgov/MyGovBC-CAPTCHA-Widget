@@ -10,6 +10,7 @@ import { Response } from '@angular/http';
   <form style="clear:both">
     <div [ngClass]="{'has-error': !!incorrectAnswer}">
       <div>
+        
         <div class="spinner-box" *ngIf="!state || state === 1">
           <i class="fa fa-spinner fa-pulse fa-3x fa-fw" aria-hidden="true"></i>
         </div>
@@ -31,7 +32,7 @@ import { Response } from '@angular/http';
           </div>
           <div style="clear:both;"></div>
           <div>
-            <label for="answer">Enter the text you see in the orange box (case insensitive)</label>
+            <label for="answer">Enter the text you either see in the orange box or you hear in the audio</label>
             <div class="user-input">
               <input 
                 type="text"
