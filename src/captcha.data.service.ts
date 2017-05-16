@@ -16,4 +16,7 @@ export class DataService {
     return this.http.post(apiBaseUrl + '/verify/captcha', {nonce: nonce, answer: answer, validation: encryptedAnswer}, {});
   }
 
+  fetchAudio(apiBaseUrl:string, validation:string):Observable<Response> {
+    return this.http.post(apiBaseUrl + '/captcha/audio', {validation: validation}, {})
+  }
 }

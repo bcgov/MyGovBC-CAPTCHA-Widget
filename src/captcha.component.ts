@@ -18,11 +18,11 @@ import { Response } from '@angular/http';
         <div [ngClass]="{'captcha-box-visible': state === 2, 'captcha-box-invisible': state !== 2}">
           <div>
             <div style="float: left;" #image class="captcha-image"></div>
-            <audio *ngIf="audio && audio.length > 0" id="audioElement" [src]="audio">
+            <audio #audioElement *ngIf="audio && audio.length > 0" id="audioElement" [src]="audio">
               Your browser does not support the audio element.
             </audio>
             <p style="float: left;">
-              <a *ngIf="audio && audio.length > 0" class="try-another-image" href="javascript:audioElement.play();" role="button">
+              <a class="try-another-image" (click)="playAudio()" role="button">
                 <i class="fa fa-play-circle-o" aria-hidden="true"></i> Play Audio
               </a><br>
               <a class="try-another-image" href="javascript:void(0)" (click)="retryFetchCaptcha()" role="button">
@@ -142,9 +142,11 @@ import { Response } from '@angular/http';
 })
 export class CaptchaComponent implements AfterViewInit {
   @ViewChild('image') imageContainer: ElementRef;
+  @ViewChild('audioElement') audioElement: ElementRef;
   @Input('apiBaseUrl') apiBaseUrl: string;
   @Input('nonce') nonce: string;
   @Output() onValidToken = new EventEmitter<string>();
+
 
   userAnswerCorrect: boolean = null;
   /**
@@ -211,6 +213,7 @@ export class CaptchaComponent implements AfterViewInit {
     } else {
       this.incorrectAnswer = true;
       this.answer = "";
+      this.audio = "";
       // They failed - try a new one.
       this.getNewCaptcha(true);
     }
@@ -248,10 +251,32 @@ export class CaptchaComponent implements AfterViewInit {
     }, 200);
   }
 
+  public playAudio() {
+    if (this.audio && this.audio.length > 0) {
+       this.audioElement.nativeElement.play();
+    }
+    else {
+      this.dataService.fetchAudio(this.apiBaseUrl, this.validation).subscribe(
+        (response: Response) => {
+
+          let payload = response.json();
+          this.audio = payload.audio;
+          this.cd.detectChanges();
+          this.audioElement.nativeElement.play();
+        },
+        (error: Response) => {
+          console.log('Error response from fetching audio CAPTCHA: %o', error);
+          this.cd.detectChanges();
+        }
+      );
+    }
+  }
+
   public getNewCaptcha(errorCase:any) {
     console.log("Fetching new captcha image.");
     this.state = CAPTCHA_STATE.FETCHING_CAPTCHA_IMG;
-    
+    this.audio = "";
+
     // Reset things
     if (!errorCase) {
       // Let them know they failed instead of wiping out the answer area
@@ -266,7 +291,6 @@ export class CaptchaComponent implements AfterViewInit {
         let payload = response.json();
         this.imageContainer.nativeElement.innerHTML = payload.captcha;
         this.validation = payload.validation;
-        this.audio = payload.audio;
         this.cd.detectChanges();
       },
       (error:Response) => {
