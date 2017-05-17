@@ -22,8 +22,8 @@ import { Response } from '@angular/http';
               Your browser does not support the audio element.
             </audio>
             <p style="float: left;">
-              <a class="try-another-image" (click)="playAudio()" role="button">
-                <i class="fa fa-play-circle-o" aria-hidden="true"></i> Play Audio
+              <a class="try-another-image" href="javascript:void(0)" (click)="playAudio()" role="button">
+                <i class="fa fa-play-circle-o" aria-hidden="true" role="alert"></i> Play Audio
               </a><br>
               <a class="try-another-image" href="javascript:void(0)" (click)="retryFetchCaptcha()" role="button">
                 <i class="fa fa-refresh" aria-hidden="true"></i> Try another image
