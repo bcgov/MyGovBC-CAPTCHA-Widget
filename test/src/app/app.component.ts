@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
   title = 'MyGovBC Captcha Widget Test Harness';
-  api = "http://localhost:3000";
+  api = "https://mygovbc-captcha-service-demo.pathfinder.gov.bc.ca";
   // api = "http://localhost:8000/msp/api/captcha-local/captcha";
   token:string;
 
