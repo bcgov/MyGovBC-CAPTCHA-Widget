@@ -12,8 +12,14 @@
   "version": "1.0.0",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "rm -rf lib && tsc -p src"
+    "prebuild": "rimraf lib",
+    "build": "tsc -p src"
   },
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
   "private": false,
   "repository": {
     "type": "git",
@@ -37,5 +43,8 @@
     "ts-helpers": "^1.1.1",
     "zone.js": "^0.6.25",
     "font-awesome": "^4.6.3"
+  },
+  "devDependencies": {
+    "rimraf": "2.6.1"
   }
 }
