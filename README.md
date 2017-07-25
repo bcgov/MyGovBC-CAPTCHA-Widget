@@ -1,7 +1,9 @@
-# MyGovBC-Captcha-Widget Angular2
+# MyGovBC-Captcha-Widget Angular
 This is just the user interface part of an overall solution, for service component see:
 
 * https://github.com/bcgov/MyGovBC-CAPTCHA-Service
+
+Also, here's an [integrated example app](https://github.com/bcgov/angular-scaffold-captcha)
 
 ## Installing
 
