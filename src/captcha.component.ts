@@ -75,7 +75,7 @@ import { Response } from '@angular/http';
         </div>
         
         <div class="text-danger" *ngIf="incorrectAnswer === true" role="alert" aria-live="assertive">
-          Incorrect answer, plese try again.
+          Incorrect answer, please try again.
         </div>
       </div>
     </div>
