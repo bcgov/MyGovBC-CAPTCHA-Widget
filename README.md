@@ -1,6 +1,7 @@
-# MyGovBCCAPTCHAWidgetV2
+# MyGov BC CAPTCHA Widget
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.4.
+It is recommended that you use the latest 1.x version of Angular CLI in your local system (globally installed).
 
 ## Development server
 
@@ -21,6 +22,31 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+
+## Installing CAPTCHA into your project
+
+First get the component via NPM:
+
+```
+npm install git+https://github.com/bcgov/MyGovBC-CAPTCHA-Widget.git
+```
+
+Add to your AngularJS module declaration:
+```
+let CaptchaComponent = require("mygovbc-captcha-widget/component").CaptchaComponent;
+...
+  declarations: [..., CaptchaComponent, ...]
+
+```
+
+Then use on a template:
+
+```
+<div class="row">
+    <captcha [apiBaseUrl]="captchaApiBaseUrl" [nonce]="<optional string to get signed by the server>"
+             (onValidToken)="authorizationToken = $event"></captcha>
+</div>
 
 ## Further help
 
