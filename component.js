@@ -1,1 +1,0 @@
-exports.CaptchaComponent = require('./lib/captcha.component').CaptchaComponent;
