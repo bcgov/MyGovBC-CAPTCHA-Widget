@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
 import { CaptchaComponent } from './captcha.component';
+import { CaptchaDataService } from '../captcha-data.service';
 
 describe('CaptchaComponent', () => {
   let component: CaptchaComponent;
@@ -8,7 +11,15 @@ describe('CaptchaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CaptchaComponent ]
+      declarations: [ CaptchaComponent ],
+      providers: [
+        CaptchaDataService
+      ],   
+      
+      imports: [
+        HttpModule,
+        FormsModule
+      ]    
     })
     .compileComponents();
   }));

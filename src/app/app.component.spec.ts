@@ -1,11 +1,28 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { CaptchaComponent } from './captcha/captcha.component';
+import { CaptchaDataService } from './captcha-data.service';
+
+import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        CaptchaComponent
       ],
+
+      imports: [
+        HttpModule,
+        FormsModule
+      ],
+      
+      providers: [
+        CaptchaDataService
+      ]      
     }).compileComponents();
   }));
   it('should create the app', async(() => {
