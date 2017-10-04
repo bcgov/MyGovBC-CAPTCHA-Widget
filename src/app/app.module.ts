@@ -20,6 +20,11 @@ import { CaptchaDataService } from './captcha-data.service';
   providers: [
     CaptchaDataService
   ],
+
+  exports: [
+    CaptchaComponent,
+    CaptchaDataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

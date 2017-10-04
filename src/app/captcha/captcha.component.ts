@@ -35,7 +35,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit {
   state:CAPTCHA_STATE;
   incorrectAnswer:boolean;
 
-  private fetchingAudioInProgress = false;
+  public fetchingAudioInProgress = false;
 
   constructor(private dataService: CaptchaDataService,
     private cd: ChangeDetectorRef) {
