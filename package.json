@@ -1,6 +1,6 @@
 {
-  "name": "my-gov-bc-captcha-widget",
-  "version": "2.0.1",
+  "name": "mygovbc-captcha-widget",
+  "version": "2.0.2",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
