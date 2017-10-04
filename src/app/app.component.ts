@@ -11,6 +11,6 @@ export class AppComponent {
 
   }
   public handleAuthToken(token){
-    console.log('valid token received: ' + token);
+    console.log('valid token received: ');
   }
 }
