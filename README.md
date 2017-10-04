@@ -47,6 +47,7 @@ Then use on a template:
     <captcha [apiBaseUrl]="captchaApiBaseUrl" [nonce]="<optional string to get signed by the server>"
              (onValidToken)="authorizationToken = $event"></captcha>
 </div>
+```
 
 ## Further help
 

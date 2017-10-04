@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('my-gov-bc-captcha-widget-v2 App', () => {
+describe('My GovBC CAPTCHA Widget V2', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -9,6 +9,6 @@ describe('my-gov-bc-captcha-widget-v2 App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('BC Gov. CAPTCHA Widget Source Code and Demo');
   });
 });
