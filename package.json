@@ -1,50 +1,51 @@
 {
-  "name": "mygovbc-captcha-widget",
-  "description": "The complimentry AngularJS 2 component to call the mygovbc-captcha-service.",
-  "keywords": [
-    "MyGovBC",
-    "captcha",
-    "service",
-    "widget",
-    "api",
-    "JWT"
-  ],
-  "version": "1.0.4",
-  "license": "Apache-2.0",
+  "name": "my-gov-bc-captcha-widget-v2",
+  "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
-    "prebuild": "rimraf lib",
-    "build": "tsc -p src"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
-  "files": [
-    "lib",
-    "README.md",
-    "LICENSE"
-  ],
-  "private": false,
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bcgov/MyGovBC-CAPTCHA-Widget.git"
-  },
-  "bugs": {
-    "url": "https://github.com/bcgov/MyGovBC-CAPTCHA-Widget/issues"
-  },
-  "author": "Mark Lisé <contact@digitalspace.ca> (http://www.digitalspace.ca/)",
-  "peer-dependencies": {
-    "@angular/common": "~2.2.4",
-    "@angular/compiler": "~2.2.4",
-    "@angular/core": "~2.2.4",
-    "@angular/forms": "~2.2.4",
-    "@angular/http": "~2.2.4",
-    "@angular/platform-browser": "~2.2.4",
-    "@angular/platform-browser-dynamic": "~2.2.4",
-    "@angular/router": "~3.2.1",
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^4.2.4",
+    "@angular/cdk": "^2.0.0-beta.11",
+    "@angular/common": "^4.2.4",
+    "@angular/compiler": "^4.2.4",
+    "@angular/core": "^4.2.4",
+    "@angular/forms": "^4.2.4",
+    "@angular/http": "^4.2.4",
+    "@angular/platform-browser": "^4.2.4",
+    "@angular/platform-browser-dynamic": "^4.2.4",
+    "@angular/router": "^4.2.4",
     "core-js": "^2.4.1",
-    "rxjs": "^5.0.1",
-    "ts-helpers": "^1.1.1",
-    "zone.js": "^0.6.25",
-    "font-awesome": "^4.6.3"
+    "font-awesome": "4.7.0",
+    "rxjs": "^5.4.3",
+    "zone.js": "^0.8.14"
   },
   "devDependencies": {
-    "rimraf": "2.6.1"
+    "@angular/cli": "1.4.4",
+    "@angular/compiler-cli": "^4.2.4",
+    "@angular/language-service": "^4.2.4",
+    "@types/jasmine": "~2.5.53",
+    "@types/jasminewd2": "~2.0.2",
+    "@types/node": "~6.0.60",
+    "codelyzer": "~3.2.0",
+    "jasmine-core": "~2.6.2",
+    "jasmine-spec-reporter": "~4.1.0",
+    "karma": "~1.7.0",
+    "karma-chrome-launcher": "~2.1.1",
+    "karma-cli": "~1.0.1",
+    "karma-coverage-istanbul-reporter": "^1.2.1",
+    "karma-jasmine": "~1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "protractor": "~5.1.2",
+    "ts-node": "~3.2.0",
+    "tslint": "~5.7.0",
+    "typescript": "~2.3.3"
   }
 }

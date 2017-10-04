@@ -1,0 +1,91 @@
+<div>
+  <form style="clear:both" #formRef="ngForm">
+    <div [ngClass]="{'has-error': !!incorrectAnswer}">
+      <div>
+        
+        <div class="spinner-box" *ngIf="!state || state === 1">
+         <div style="float:left; margin: 8px 2px 6px 8px">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                        Loading CAPTCHA image
+         </div>
+    
+        </div>
+        
+        <div [ngClass]="{'captcha-box-visible': state === 2, 'captcha-box-invisible': state !== 2}">
+          <div>
+            <div style="float: left;" #image class="captcha-image"></div>
+            <audio #audioElement *ngIf="audio && audio.length > 0" id="audioElement" [src]="audio">
+              Your browser does not support the audio element.
+            </audio>
+            <div style="float: left; margin-top: 8px">
+              <a class="play-audio" href="javascript:void(0)" (click)="playAudio()" role="button">
+                <i *ngIf="!fetchingAudioInProgress" class="fa fa-play-circle-o" aria-hidden="true" role="alert"></i> 
+                <i *ngIf="fetchingAudioInProgress" class="fa fa-spinner fa-spin fa-fw"></i>                
+                Play Audio
+              </a>
+              <div style="clear:both;"></div>
+              
+              <a class="try-another-image" href="javascript:void(0)" (click)="retryFetchCaptcha()" role="button">
+                <i class="fa fa-refresh" aria-hidden="true"></i> Try another image
+              </a>
+            </div>
+          </div>
+          <div style="clear:both; margin-bottom: 8px;"></div>
+          <div style="float:left;">
+            <label for="answer">
+                Enter the text you either see in the orange box or you hear in the audio
+              <input id="answer" type="text"
+                #userAnswerRef = "ngModel"
+                [(ngModel)]="answer"
+                (input)="answerChanged($event)"
+                [ngClass]="{'captcha-wrong-answer': userAnswerRef.dirty && incorrectAnswer}"
+                name="answer"
+                maxlength="6"
+                required
+                autocorrect="off" 
+                autocapitalize="none">
+            </label>
+          </div>
+        </div>
+        <div style="clear:both;"></div>
+        <div style="float:left;">
+
+        <div class="error-captcha" *ngIf="state === 3" role="alert" aria-live="assertive">
+          <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
+          <span> Error happened while retreiving image. please 
+            <a href="javascript:void(0)" (click)="retryFetchCaptcha()">click here</a> 
+              to try again
+          </span>
+          <p>
+            {{errorFetchingImg}}
+          </p>
+        </div>
+        
+        <div class="spinner-box" *ngIf="state == 4" role="alert" aria-live="assertive">
+          <span>Verifying your answer...</span>
+        </div>
+        <div class="error-captcha" *ngIf="state === 6"  role="alert" aria-live="assertive">
+          <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
+          <span> Error happened while verifying your answer. please 
+            <a href="javascript:void(0)" (click)="retryFetchCaptcha()">click here</a> 
+              to try again
+          </span>
+          <p>
+          </p>
+        </div>
+        
+        <div class="captcha-error" style="margin-top: 2px" *ngIf="incorrectAnswer === true" role="alert" aria-live="assertive">
+          Incorrect answer, please try again.
+        </div>
+      </div>
+      
+      </div>
+    </div>
+  </form>
+
+  <div class="confirm-correct-answer" style="float:left" *ngIf="state === 5" role="alert" aria-live="assertive">
+    <i class="fa fa-check success fa-2x" aria-hidden="true"></i> 
+    Correct. <span>{{successMessage}}</span>
+  </div>
+  <div style="clear:both;"></div>
+</div>
