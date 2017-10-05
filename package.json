@@ -1,6 +1,6 @@
 {
   "name": "mygovbc-captcha-widget",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
