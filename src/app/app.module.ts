@@ -22,8 +22,7 @@ import { CaptchaDataService } from './captcha-data.service';
   ],
 
   exports: [
-    CaptchaComponent,
-    CaptchaDataService
+    CaptchaComponent
   ],
   bootstrap: [AppComponent]
 })
