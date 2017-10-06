@@ -28,15 +28,30 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 First get the component via NPM:
 
+* To install a specific version 
+```
+npm install git+https://github.com/bcgov/MyGovBC-CAPTCHA-Widget.git@2.1.1
+```
+
+* To install the latest version 
+
 ```
 npm install git+https://github.com/bcgov/MyGovBC-CAPTCHA-Widget.git
 ```
 
 Add to your AngularJS module declaration:
 ```
-let CaptchaComponent = require("mygovbc-captcha-widget/component").CaptchaComponent;
+import { CaptchaComponent } from "mygovbc-captcha-widget/src/app/captcha/captcha.component";
+import { CaptchaDataService } from "mygovbc-captcha-widget/src/app/captcha-data.service";
+
+
 ...
-  declarations: [..., CaptchaComponent, ...]
+  declarations: [..., CaptchaComponent, ...],
+
+  providers: [
+    ..., CaptchaDataService, ...  
+  ]
+  
 
 ```
 
@@ -44,10 +59,15 @@ Then use on a template:
 
 ```
 <div class="row">
-    <captcha [apiBaseUrl]="captchaApiBaseUrl" [nonce]="<optional string to get signed by the server>"
-             (onValidToken)="authorizationToken = $event"></captcha>
+    <captcha [apiBaseUrl]="captchaApiBaseUrl" 
+             [nonce]="<optional string to get signed by the server>"
+             (onValidToken)="authorizationToken = $event"
+             successMessage="You can save the form now.">
+    </captcha>
 </div>
 ```
+
+Set value of `successMessage` to fits with the context of your application after user solves that CAPTCHA image.
 
 ## Further help
 
