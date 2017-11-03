@@ -1,5 +1,5 @@
-import {Component, ElementRef, ViewChild, 
-  ChangeDetectorRef, Output, Input, AfterViewInit, OnInit, EventEmitter} from '@angular/core';
+import {Component, ElementRef, ViewChild, SimpleChanges,
+  ChangeDetectorRef, Output, Input, AfterViewInit, OnInit, OnChanges, EventEmitter} from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { CaptchaDataService } from '../captcha-data.service';
 
@@ -8,11 +8,16 @@ import { CaptchaDataService } from '../captcha-data.service';
   templateUrl: './captcha.component.html',
   styleUrls: ['./captcha.component.scss']
 })
-export class CaptchaComponent implements AfterViewInit, OnInit {
+export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
 
   @ViewChild('image') imageContainer: ElementRef;
   @ViewChild('audioElement') audioElement: ElementRef;
   @Input('apiBaseUrl') apiBaseUrl: string;
+  /*
+    For parent element to trigger a captcha reload without user clicking on
+    "Try another image" button.
+  */
+  @Input('reloadCaptchaToggle') reloadCaptcha?: Boolean = false;
   @Input('nonce') nonce: string;
   @Output() onValidToken = new EventEmitter<string>();
   @Input('successMessage') successMessage:String;
@@ -50,7 +55,13 @@ export class CaptchaComponent implements AfterViewInit, OnInit {
     this.getNewCaptcha(false);
     this.cd.detectChanges();
   }
+  ngOnChanges(changes: SimpleChanges) {
 
+    if(changes.reloadCaptcha && (true === changes.reloadCaptcha.previousValue || false === changes.reloadCaptcha.previousValue)
+      && (changes.reloadCaptcha.currentValue != changes.reloadCaptcha.previousValue)){
+        this.getNewCaptcha(false);
+      }
+  }  
   answerChanged (event:any) {
     if(this.answer.length < 6){
       this.incorrectAnswer = null;
