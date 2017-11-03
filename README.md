@@ -30,7 +30,7 @@ First get the component via NPM:
 
 * To install a specific version 
 ```
-npm install git+https://github.com/bcgov/MyGovBC-CAPTCHA-Widget.git@2.1.1
+npm install git+https://github.com/bcgov/MyGovBC-CAPTCHA-Widget.git#2.1.1
 ```
 
 * To install the latest version 
