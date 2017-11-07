@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild, SimpleChanges,
+import {Component, ElementRef, ViewChild, SimpleChanges, NgZone,
   ChangeDetectorRef, Output, Input, AfterViewInit, OnInit, OnChanges, EventEmitter} from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { CaptchaDataService } from '../captcha-data.service';
@@ -13,11 +13,6 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
   @ViewChild('image') imageContainer: ElementRef;
   @ViewChild('audioElement') audioElement: ElementRef;
   @Input('apiBaseUrl') apiBaseUrl: string;
-  /*
-    For parent element to trigger a captcha reload without user clicking on
-    "Try another image" button.
-  */
-  @Input('reloadCaptchaToggle') reloadCaptcha?: Boolean = false;
   @Input('nonce') nonce: string;
   @Output() onValidToken = new EventEmitter<string>();
   @Input('successMessage') successMessage:String;
@@ -43,25 +38,39 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
   public fetchingAudioInProgress = false;
 
   constructor(private dataService: CaptchaDataService,
-    private cd: ChangeDetectorRef) {
+    private cd: ChangeDetectorRef,
+    private ngZone: NgZone) {
   }
 
   ngOnInit(){
     if(!this.successMessage){
       this.successMessage = "You can submit your application now.";
     }
+
+    this.forceRefresh.bind(this);
+    window['ca.bcgov.captchaRefresh'] = this.publicForceRefresh.bind(this);
   }
   ngAfterViewInit() {
-    this.getNewCaptcha(false);
-    this.cd.detectChanges();
+    this.forceRefresh();
   }
   ngOnChanges(changes: SimpleChanges) {
-
+    console.log(`ngOnChanges fired: `);
+    console.log(changes);
     if(changes.reloadCaptcha && (true === changes.reloadCaptcha.previousValue || false === changes.reloadCaptcha.previousValue)
       && (changes.reloadCaptcha.currentValue != changes.reloadCaptcha.previousValue)){
         this.getNewCaptcha(false);
       }
   }  
+
+  forceRefresh(){
+    this.getNewCaptcha(false);
+    this.cd.detectChanges();
+  }
+
+  publicForceRefresh() {
+    this.ngZone.run(() => this.forceRefresh());
+  }  
+
   answerChanged (event:any) {
     if(this.answer.length < 6){
       this.incorrectAnswer = null;
@@ -125,6 +134,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   public retryFetchCaptcha() {
+    console.log('Retry captcha');
     this.state = undefined;
 
     /**

@@ -10,5 +10,14 @@
 </head>
 <body>
   <app-root></app-root>
+  <script>
+  
+    setInterval(
+      function(){
+        console.log(window['ca.bcgov.captchaRefresh'].call());
+      },
+      3000
+    );
+  </script>
 </body>
 </html>
