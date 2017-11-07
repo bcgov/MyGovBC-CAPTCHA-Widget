@@ -136,7 +136,7 @@
           <div style="clear:both; margin-bottom: 8px;"></div>
           <div style="float:left;">
             <label for="answer">
-                Enter the text you either see in the orange box or you hear in the audio
+                {{userPromptMessage}}
               <input id="answer" type="text"
                 #userAnswerRef = "ngModel"
                 [(ngModel)]="answer"

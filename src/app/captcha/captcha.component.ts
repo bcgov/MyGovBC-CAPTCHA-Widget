@@ -17,6 +17,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
   @Output() onValidToken = new EventEmitter<string>();
   @Input('successMessage') successMessage:String;
   @Input('eagerFetchAudio') eagerFetchAudio:String;
+  @Input('userPromptMessage') userPromptMessage?:string = "Enter the text you either see in the box or you hear in the audio";
 
   /**
    * Http error response for fetching a CAPTCHA image.
@@ -49,6 +50,10 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
 
     this.forceRefresh.bind(this);
     window['ca.bcgov.captchaRefresh'] = this.publicForceRefresh.bind(this);
+
+    // if(!this.userPromptMessage){
+    //   this.userPromptMessage = "Enter the text you either see in the box or you hear in the audio";      
+    // }
   }
   ngAfterViewInit() {
     this.forceRefresh();
