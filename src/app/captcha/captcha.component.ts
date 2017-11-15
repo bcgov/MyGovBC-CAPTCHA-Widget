@@ -59,8 +59,6 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
     this.forceRefresh();
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log(`ngOnChanges fired: `);
-    console.log(changes);
     if(changes.reloadCaptcha && (true === changes.reloadCaptcha.previousValue || false === changes.reloadCaptcha.previousValue)
       && (changes.reloadCaptcha.currentValue != changes.reloadCaptcha.previousValue)){
         this.getNewCaptcha(false);
