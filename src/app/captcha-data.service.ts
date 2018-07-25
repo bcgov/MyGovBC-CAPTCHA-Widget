@@ -1,23 +1,57 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import {Observable} from "rxjs/Rx";
-import 'rxjs/Rx';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+// import { Http, Response } from '@angular/http';
+import {Observable} from 'rxjs';
+
+// payload returned from the server
+@Injectable()
+export class ServerPayload {
+  nonce: string;
+  captcha: string;
+  validation: string;
+  expiry: string;
+}
 
 @Injectable()
 export class CaptchaDataService {
 
-  constructor(private http: Http) { }
-  
-    fetchData(apiBaseUrl:string, nonce:string):Observable<Response> {
-      return this.http.post(apiBaseUrl + '/captcha', {nonce: nonce}, {})
+  constructor(private httpClient: HttpClient) { }
+    // private http: Http) { }
+
+  public fetchData(apiBaseUrl: string, nonce: string): Observable<HttpResponse<ServerPayload>> {
+    return this.httpClient
+      .post<ServerPayload>(
+        apiBaseUrl + '/captcha',
+        {nonce: nonce},
+        {observe: 'response'});
+  }
+
+  public verifyCaptcha(apiBaseUrl: string, nonce: string, answer: string, encryptedAnswer: string): Observable<HttpResponse<ServerPayload>> {
+    return this.httpClient
+      .post<ServerPayload>(
+        apiBaseUrl + '/verify/captcha',
+        {nonce: nonce, answer: answer, validation: encryptedAnswer},
+        {observe: 'response'});
+  }
+
+  public fetchAudio(apiBaseUrl: string, validation: string) {
+    return this.httpClient
+      .post<string>(
+        apiBaseUrl + '/captcha/audio',
+        {validation: validation},
+        {observe: 'response'});
+  }
+  /*
+    fetchData(apiBaseUrl: string, nonce: string): Observable<Response> {
+      return this.http.post(apiBaseUrl + '/captcha', {nonce: nonce}, {});
     }
-  
-    verifyCaptcha(apiBaseUrl:string, nonce:string, answer:string, encryptedAnswer:string):Observable<Response> {
+
+    verifyCaptcha(apiBaseUrl: string, nonce: string, answer: string, encryptedAnswer: string): Observable<Response> {
       return this.http.post(apiBaseUrl + '/verify/captcha', {nonce: nonce, answer: answer, validation: encryptedAnswer}, {});
     }
-  
-    fetchAudio(apiBaseUrl:string, validation:string):Observable<Response> {
-      return this.http.post(apiBaseUrl + '/captcha/audio', {validation: validation}, {})
+
+    fetchAudio(apiBaseUrl: string, validation: string): Observable<Response> {
+      return this.http.post(apiBaseUrl + '/captcha/audio', {validation: validation}, {});
     }
-  
+  */
 }

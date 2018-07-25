@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
+// import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule} from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 
 import { CaptchaComponent } from './captcha.component';
@@ -14,12 +16,13 @@ describe('CaptchaComponent', () => {
       declarations: [ CaptchaComponent ],
       providers: [
         CaptchaDataService
-      ],   
-      
+      ],
+
       imports: [
-        HttpModule,
+        // HttpModule,
+        HttpClientTestingModule,
         FormsModule
-      ]    
+      ]
     })
     .compileComponents();
   }));

@@ -1,5 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 import { CaptchaComponent } from './captcha/captcha.component';
 import { CaptchaDataService } from './captcha-data.service';
 
@@ -16,13 +17,14 @@ describe('AppComponent', () => {
       ],
 
       imports: [
-        HttpModule,
+        // HttpModule,
+        HttpClientModule,
         FormsModule
       ],
-      
+
       providers: [
         CaptchaDataService
-      ]      
+      ]
     }).compileComponents();
   }));
   it('should create the app', async(() => {
