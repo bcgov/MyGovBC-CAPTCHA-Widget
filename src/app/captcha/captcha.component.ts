@@ -18,9 +18,10 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
   @Input('apiBaseUrl') apiBaseUrl: string;
   @Input('nonce') nonce: string;
   @Output() onValidToken = new EventEmitter<string>();
-  @Input('successMessage') successMessage: String;
-  @Input('eagerFetchAudio') eagerFetchAudio: String;
-  @Input('userPromptMessage') userPromptMessage?: 'Enter the text you either see in the box or you hear in the audio';
+  @Input('successMessage') successMessage: string;
+  @Input('eagerFetchAudio') eagerFetchAudio: string;
+  @Input('language') language: string = 'en';
+  @Input('userPromptMessage') userPromptMessage: string;
 
   /**
    * Http error response for fetching a CAPTCHA image.
@@ -47,10 +48,6 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   ngOnInit() {
-    if (!this.successMessage) {
-      this.successMessage = 'You can submit your application now.';
-    }
-
     this.forceRefresh.bind(this);
     window['ca.bcgov.captchaRefresh'] = this.publicForceRefresh.bind(this);
 
@@ -62,10 +59,13 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
     this.forceRefresh();
   }
   ngOnChanges(changes: SimpleChanges) {
-    if (!(changes.reloadCaptcha && (true === changes.reloadCaptcha.previousValue
-      || false === changes.reloadCaptcha.previousValue)
-      && (changes.reloadCaptcha.currentValue !== changes.reloadCaptcha.previousValue))) {
-      return;
+    // when changing language, if audio is empty then no need to refetch
+    if (!changes.language || !this.audio || this.audio.length === 0) {
+      if (!(changes.reloadCaptcha && (true === changes.reloadCaptcha.previousValue
+        || false === changes.reloadCaptcha.previousValue)
+        && (changes.reloadCaptcha.currentValue !== changes.reloadCaptcha.previousValue))) {
+        return;
+      }
     }
     this.getNewCaptcha(false);
   }
@@ -163,7 +163,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
   private fetchAudio(playImmediately: boolean = false) {
     if (!this.fetchingAudioInProgress) {
       this.fetchingAudioInProgress = true;
-      this.dataService.fetchAudio(this.apiBaseUrl, this.validation).subscribe((response: HttpResponse<any>) => {
+      this.dataService.fetchAudio(this.apiBaseUrl, this.validation, this.language).subscribe((response: HttpResponse<any>) => {
         this.fetchingAudioInProgress = false;
         this.audio = response.body.audio;
         this.cd.detectChanges();
@@ -226,6 +226,74 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
     return line;
   }
 
+  private translatedMessages = {
+    playAudio: {
+      en: 'Play Audio',
+      zh: '播放声音',
+      fr: 'Lecture audio',
+      pa: 'ਆਡੀਓ ਚਲਾਓ',
+    },
+    tryAnotherImg: {
+      en: 'Try another image',
+      zh: '换个图像',
+      fr: 'Essayez une autre image',
+      pa: 'ਕੋਈ ਹੋਰ ਚਿੱਤਰ ਅਜ਼ਮਾਓ',
+    },
+    userPromptMessage: {
+      en: 'Enter the text you either see in the box or you hear in the audio',
+      zh: '请输入看到或听到的文字',
+      fr: 'Entrez le texte que vous voyez dans la case ou que vous entendez dans le son',
+      pa: 'ਉਹ ਟੈਕਸਟ ਦਾਖਲ ਕਰੋ ਜੋ ਤੁਸੀਂ ਬਕਸੇ ਵਿੱਚ ਦੇਖਦੇ ਹੋ ਜਾਂ ਤੁਸੀਂ ਆਡੀਓ ਵਿੱਚ ਸੁਣਦੇ ਹੋ',
+    },
+    incorrectAnswer: {
+      en: 'Incorrect answer, please try again.',
+      zh: '答案不对。请重试。',
+      fr: 'Mauvaise réponse, veuillez réessayer.',
+      pa: 'ਗਲਤ ਜਵਾਬ, ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.',
+    },
+    successMessage: {
+      en: 'You can submit your application now.',
+      zh: '你现在可以提交申请了。',
+      fr: 'Vous pouvez soumettre votre candidature maintenant.',
+      pa: 'ਤੁਸੀਂ ਆਪਣੀ ਅਰਜ਼ੀ ਹੁਣੇ ਪੇਸ਼ ਕਰ ਸਕਦੇ ਹੋ',
+    },
+    correct: {
+      en: 'Correct.',
+      zh: '正确。',
+      fr: 'Correct.',
+      pa: 'ਸਹੀ ਕਰੋ',
+    },
+    loadingImage: {
+      en: 'Loading CAPTCHA image',
+      zh: '正在下载验证码',
+      fr: 'Chargement de l\'image CAPTCHA',
+      pa: 'ਕੈਪਟਚਾ ਚਿੱਤਰ ਲੋਡ ਕਰ ਰਿਹਾ ਹੈ',
+    },
+    browserNotSupportAudio: {
+      en: 'Your browser does not support the audio element.',
+      zh: '你的浏览器不支持播音',
+      fr: 'Votre navigateur ne supporte pas l\'élément audio.',
+      pa: 'ਤੁਹਾਡਾ ਬ੍ਰਾਉਜ਼ਰ ਆਡੀਓ ਐਲੀਮੈਂਟ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ.',
+    },
+    verifyingAnswer: {
+      en: 'Verifying your answer...',
+      zh: '正在验证答案...',
+      fr: 'Vérification de votre réponse ...',
+      pa: 'ਤੁਹਾਡਾ ਜਵਾਬ ਤਸਦੀਕ ਕਰ ਰਿਹਾ ਹੈ ...',
+    },
+    errorRetrievingImg: {
+      en: 'Error happened while retrieving CAPTCHA image. please {{click here}} to try again',
+      zh: '验证码下载错误。请{{点击这里}}重试',
+      fr: "Une erreur s'est produite lors de la récupération de l'image CAPTCHA. s'il vous plaît {{cliquez ici}} pour réessayer",
+      pa: 'ਕੈਪਟਚਾ ਚਿੱਤਰ ਨੂੰ ਪ੍ਰਾਪਤ ਕਰਦੇ ਸਮੇਂ ਤਰੁੱਟੀ ਉਤਪੰਨ ਹੋਈ. ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰਨ ਲਈ {{ਇੱਥੇ ਕਲਿਕ ਕਰੋ}}',
+    },
+    errorVerifyingAnswer: {
+      en: 'Error happened while verifying your answer. please {{click here}} to try again',
+      zh: '验证答案过程发生错误。请{{点击这里}}重试',
+      fr: "Une erreur s'est produite lors de la vérification de votre réponse. s'il vous plaît {{cliquez ici}} pour réessayer",
+      pa: 'ਤੁਹਾਡਾ ਜਵਾਬ ਤਸਦੀਕ ਕਰਨ ਵੇਲੇ ਗਲਤੀ ਆਈ ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰਨ ਲਈ {{ਇੱਥੇ ਕਲਿਕ ਕਰੋ}}',
+    },
+  }
 }
 
 /**

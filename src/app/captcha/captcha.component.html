@@ -70,7 +70,7 @@
               </g></svg>
          </div>
          <div style="float:left; margin: 16px 0 1px 3px">
-            Loading CAPTCHA image
+            {{translatedMessages.loadingImage[language]}}
          </div>
          <div style="clear:both"></div>
         </div>
@@ -79,7 +79,7 @@
           <div>
             <div style="float: left;" #image class="captcha-image"></div>
             <audio #audioElement *ngIf="audio && audio.length > 0" id="audioElement" [src]="audio">
-              Your browser does not support the audio element.
+                {{translatedMessages.browserNotSupportAudio[language]}}
             </audio>
             <div style="float: left; margin-top: 8px">
               <a class="play-audio" href="javascript:void(0)" (click)="playAudio()" role="button">
@@ -123,20 +123,20 @@
                   </rect>
                 </g></svg>
 
-                Play Audio
+                {{translatedMessages.playAudio[language]}}
               </a>
               <div style="clear:both;"></div>
               
               <a class="try-another-image" href="javascript:void(0)" (click)="retryFetchCaptcha()" role="button">
                   <svg class="icon-loop icon-loop-def"><use xlink:href="#icon-loop-def"></use></svg>                
-                Try another image
+                  {{translatedMessages.tryAnotherImg[language]}}
               </a>
             </div>
           </div>
           <div style="clear:both; margin-bottom: 8px;"></div>
           <div style="float:left;">
             <label for="answer">
-                {{userPromptMessage}}
+                {{userPromptMessage || translatedMessages.userPromptMessage[language]}}
               <input id="answer" type="text"
                 #userAnswerRef = "ngModel"
                 [(ngModel)]="answer"
@@ -157,9 +157,9 @@
           <div style="float:left; margin-left: 5px;">
             <svg class="icon-exclamation-triangle"><use xlink:href="#icon-exclamation-triangle-def"></use></svg>
   
-            <span> Error happened while retreiving CAPTCHA image. please 
-              <a href="javascript:void(0)" (click)="retryFetchCaptcha()">click here</a> 
-                to try again
+            <span> {{translatedMessages.errorRetrievingImg[language].substring(0,translatedMessages.errorRetrievingImg[language].indexOf('{'))}} 
+              <a href="javascript:void(0)" (click)="retryFetchCaptcha()">{{translatedMessages.errorRetrievingImg[language].substring(translatedMessages.errorRetrievingImg[language].lastIndexOf('{')+1,translatedMessages.errorRetrievingImg[language].indexOf('}'))}}</a> 
+              {{translatedMessages.errorRetrievingImg[language].substring(translatedMessages.errorRetrievingImg[language].lastIndexOf('}')+1)}} 
             </span>
           </div>
           <div style="clear:both"></div>
@@ -171,20 +171,20 @@
         </div>
         
         <div class="spinner-box" *ngIf="state == 4" role="alert" aria-live="assertive">
-          <span>Verifying your answer...</span>
+          <span>{{translatedMessages.verifyingAnswer[language]}}</span>
         </div>
         <div class="error-captcha" *ngIf="state === 6"  role="alert" aria-live="assertive">
           <svg class="icon-exclamation-triangle"><use xlink:href="#icon-exclamation-triangle-def"></use></svg>
-          <span> Error happened while verifying your answer. please 
-            <a href="javascript:void(0)" (click)="retryFetchCaptcha()">click here</a> 
-              to try again
+          <span>{{translatedMessages.errorVerifyingAnswer[language].substring(0,translatedMessages.errorVerifyingAnswer[language].indexOf('{'))}} 
+              <a href="javascript:void(0)" (click)="retryFetchCaptcha()">{{translatedMessages.errorVerifyingAnswer[language].substring(translatedMessages.errorVerifyingAnswer[language].lastIndexOf('{')+1,translatedMessages.errorVerifyingAnswer[language].indexOf('}'))}}</a> 
+              {{translatedMessages.errorVerifyingAnswer[language].substring(translatedMessages.errorVerifyingAnswer[language].lastIndexOf('}')+1)}} 
           </span>
           <p>
           </p>
         </div>
         
         <div class="captcha-error" style="margin-top: 2px" *ngIf="incorrectAnswer === true" role="alert" aria-live="assertive">
-          Incorrect answer, please try again.
+          {{translatedMessages.incorrectAnswer[language]}}
         </div>
       </div>
       
@@ -194,7 +194,7 @@
 
   <div class="confirm-correct-answer" style="float:left" *ngIf="state === 5" role="alert" aria-live="assertive">
     <svg class="icon-check"><use xlink:href="#icon-check-def"></use></svg>
-    Correct. <span>{{successMessage}}</span>
+    {{translatedMessages.correct[language]}} <span>{{successMessage || translatedMessages.successMessage[language]}}</span>
   </div>
   <div style="clear:both;"></div>
 </div>

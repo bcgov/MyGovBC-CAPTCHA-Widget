@@ -7,10 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
-  constructor(){
+  constructor() {
 
   }
-  public handleAuthToken(token){
+  selectedLanguage = 'en'
+  supportedLanguages = [['zh', 'Chinese'], ['en', 'English'],['fr','French'],['pa','Punjabi']]
+  public handleAuthToken(token) {
     console.log('valid token received: ');
   }
 }
