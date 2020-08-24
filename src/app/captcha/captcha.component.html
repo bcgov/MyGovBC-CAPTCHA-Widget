@@ -82,7 +82,7 @@
                 {{translatedMessages.browserNotSupportAudio[language]}}
             </audio>
             <div style="float: left; margin-top: 8px">
-              <button class="play-audio" href="javascript:void(0)" (click)="playAudio()" role="button">
+              <button class="play-audio BC-Gov-PrimaryButton" href="javascript:void(0)" (click)="playAudio()" role="button">
                 <svg *ngIf="!fetchingAudioInProgress" class="icon-play"><use xlink:href="#icon-play-def"></use></svg>
                 
                 <svg *ngIf="fetchingAudioInProgress" class="lds-spinner" width="15px"  height="15px"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="background: none;"><g transform="rotate(0 50 50)">
@@ -127,7 +127,7 @@
               </button>
               <div style="clear:both;"></div>
               
-              <button class="try-another-image" href="javascript:void(0)" (click)="retryFetchCaptcha()" role="button">
+              <button class="try-another-image BC-Gov-PrimaryButton" href="javascript:void(0)" (click)="retryFetchCaptcha()" role="button">
                   <svg class="icon-loop icon-loop-def"><use xlink:href="#icon-loop-def"></use></svg>                
                   {{translatedMessages.tryAnotherImg[language]}}
               </button>
