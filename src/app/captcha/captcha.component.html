@@ -23,15 +23,13 @@
     </defs>
   </svg>
 
-
-
   <form class="captcha-form" #formRef="ngForm">
     <div [ngClass]="{'has-error': !!incorrectAnswer}">
       <div>
         
         <div class="spinner-box" *ngIf="!state || state === 1">
          <div>
-            <svg class="lds-spinner" width="45px"  height="45px"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><g transform="rotate(0 50 50)">
+            <svg class="captcha-spinner"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><g transform="rotate(0 50 50)">
                 <rect x="47" y="22" rx="9.4" ry="4.4" width="6" height="16" fill="#333">
                   <animate attributeName="opacity" values="1;0" times="0;1" dur="1s" begin="-0.8888888888888888s" repeatCount="indefinite"></animate>
                 </rect>
@@ -81,10 +79,10 @@
                 {{translatedMessages.browserNotSupportAudio[language]}}
             </audio>
             <div class="captcha-buttons-container">
-              <button class="play-audio BC-Gov-PrimaryButton" href="javascript:void(0)" (click)="playAudio()" role="button">
+              <button class="play-audio-button captcha-button" href="javascript:void(0)" (click)="playAudio()" role="button">
                 <svg *ngIf="!fetchingAudioInProgress" class="icon-play"><use xlink:href="#icon-play-def"></use></svg>
                 
-                <svg *ngIf="fetchingAudioInProgress" class="lds-spinner" width="11px"  height="11px"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><g transform="rotate(0 50 50)">
+                <svg *ngIf="fetchingAudioInProgress" class="audio-spinner" width="11px"  height="11px"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><g transform="rotate(0 50 50)">
                   <rect x="45" y="9" rx="2.7" ry="0.54" width="10" height="22" fill="#fff">
                     <animate attributeName="opacity" values="1;0" times="0;1" dur="1s" begin="-0.8888888888888888s" repeatCount="indefinite"></animate>
                   </rect>
@@ -125,7 +123,7 @@
                 <span>{{translatedMessages.playAudio[language]}}</span>
               </button>
               
-              <button class="try-another-image BC-Gov-PrimaryButton" href="javascript:void(0)" (click)="retryFetchCaptcha()" role="button">
+              <button class="try-another-image captcha-button" href="javascript:void(0)" (click)="retryFetchCaptcha()" role="button">
                   <svg class="icon-loop icon-loop-def"><use xlink:href="#icon-loop-def"></use></svg>                
                   <span>{{translatedMessages.tryAnotherImg[language]}}</span>
               </button>

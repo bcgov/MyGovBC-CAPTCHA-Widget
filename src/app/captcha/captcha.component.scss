@@ -43,17 +43,10 @@
     border: 1px solid gray;
     width: fit-content;
     margin-bottom: 4px;
-    --ms-grid-column: 1;
   }
 
-  .play-audio {
-    float:left;
-    display: block;
+  .play-audio-button {
     margin-bottom: 3px;
-  }
-
-  .try-another-image {
-    display: inline-block;
   }
 
   .has-error {
@@ -96,8 +89,8 @@
 
   .icon-play {
     display: inline-block;
-    width: 15px;
-    height: 15px;
+    width: 1rem;
+    height: 1rem;
     stroke-width: 0;
     stroke: currentColor;
     fill: currentColor;
@@ -105,8 +98,8 @@
 
   .icon-check {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 1rem;
+    height: 1rem;
     stroke-width: 0;
     stroke: currentColor;
     fill: currentColor;
@@ -114,8 +107,8 @@
 
   .icon-loop {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 1rem;
+    height: 1rem;
     stroke-width: 0;
     stroke: currentColor;
     fill: currentColor;
@@ -123,8 +116,8 @@
 
   .icon-exclamation-triangle {
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 1rem;
+    height: 1rem;
     stroke-width: 0;
     stroke: currentColor;
     fill: currentColor;
@@ -172,7 +165,7 @@
 }
 
 // Taken from https://developer.gov.bc.ca/Design-System/Primary-Button standard styles
-.BC-Gov-PrimaryButton {
+.captcha-button {
   background-color: #003366;
   border: none;
   border-radius: 4px;
@@ -180,26 +173,30 @@
   padding: 5px 10px; // changed from the default 12px 32px
   text-align: center;
   text-decoration: none;
-  display: block;
   font-size: 10px; // changed from the default 18px
   // default font-family removed
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
   box-sizing: border-box;
+
+  // Added to space icons and text evenly
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
-.BC-Gov-PrimaryButton:hover {
+.captcha-button:hover {
   text-decoration: underline;
   opacity: 0.80;
 }
 
-.BC-Gov-PrimaryButton:focus {
+.captcha-button:focus {
   outline: 4px solid #3B99FC;
   outline-offset: 1px;
 }
 
-.BC-Gov-PrimaryButton:active {
+.captcha-button:active {
   opacity: 1;
 }
 
@@ -216,7 +213,6 @@
   width: fit-content;
   justify-content: space-between;
   margin-bottom: 4px;
-  --ms-grid-column: 2;
 
   > button {
     height: 28px;
@@ -236,12 +232,30 @@
   display: flex;
   flex-direction: column;
   flex-flow: wrap;
-  column-gap: 4px;
-  -ms-column-gap: 4px;
+  justify-content: space-between;
+  max-width: 303px;
 }
 
 .defs {
   width: 0;
   height: 0;
   overflow: hidden;
+}
+
+.audio-spinner {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.captcha-spinner {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
 }
