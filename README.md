@@ -1,4 +1,5 @@
 # MyGov BC CAPTCHA Widget
+![img](https://img.shields.io/badge/Lifecycle-Retired-d45500)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.4.
 It is recommended that you use the latest 1.x version of Angular CLI in your local system (globally installed).
